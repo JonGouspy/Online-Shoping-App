@@ -6,6 +6,6 @@ import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Profile(navController: NavController){
+fun Login(navController: NavController){
 
 }

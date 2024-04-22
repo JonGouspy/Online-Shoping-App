@@ -1,41 +1,45 @@
 package com.stu74538.onlineshopingapp
 
+import android.os.Parcel
+import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun AppNavigation() {
+    val sharedViewModel: SharedViewModel = viewModel()
     val navController = rememberNavController()
 
     NavHost(
         navController = navController,
-        startDestination = Routes.Login.route,
+        startDestination = if (auth.currentUser == null) Routes.Login.route else Routes.Home.route,
     ) {
-        composable(route = Routes.Login.route)
+        composable(Routes.Login.route)
         {
-            Login(navController = navController)
+            Login(navController)
         }
-        composable(route = Routes.SignUp.route)
+        composable(Routes.SignUp.route)
         {
-            SignUp(navController = navController)
+            SignUp(navController)
         }
-        composable(route = Routes.Home.route)
+        composable(Routes.Home.route)
         {
-            Home(navController = navController)
+            Home(navController, sharedViewModel)
         }
-        composable(route = Routes.Profile.route)
-        {
-            Profile(navController = navController)
+        composable(Routes.ProductDetail.route) {
+            ProductDetail(navController, sharedViewModel)
         }
-        composable(route = Routes.Product.route)
+        composable(Routes.Profile.route)
         {
-            Product(navController = navController)
+            Profile(navController, sharedViewModel)
         }
-        composable(route = Routes.Basket.route)
+        composable(Routes.Cart.route)
         {
-            Basket(navController = navController)
+            Cart(navController, sharedViewModel)
         }
     }
 }

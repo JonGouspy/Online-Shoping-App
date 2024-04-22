@@ -23,6 +23,7 @@ public class LibrariesForLibsInPluginsBlock extends AbstractExternalDependencyFa
 
     private final AbstractExternalDependencyFactory owner = this;
     private final AndroidxLibraryAccessors laccForAndroidxLibraryAccessors = new AndroidxLibraryAccessors(owner);
+    private final FirebaseLibraryAccessors laccForFirebaseLibraryAccessors = new FirebaseLibraryAccessors(owner);
     private final VersionAccessors vaccForVersionAccessors = new VersionAccessors(providers, config);
     private final BundleAccessors baccForBundleAccessors = new BundleAccessors(objects, providers, config, attributesFactory, capabilityNotationParser);
     private final PluginAccessors paccForPluginAccessors = new PluginAccessors(providers, config);
@@ -51,6 +52,16 @@ public class LibrariesForLibsInPluginsBlock extends AbstractExternalDependencyFa
     public AndroidxLibraryAccessors getAndroidx() {
         org.gradle.internal.deprecation.DeprecationLogger.deprecateBehaviour("Accessing libraries or bundles from version catalogs in the plugins block.").withAdvice("Only use versions or plugins from catalogs in the plugins block.").willBeRemovedInGradle9().withUpgradeGuideSection(8, "kotlin_dsl_deprecated_catalogs_plugins_block").nagUser();
         return laccForAndroidxLibraryAccessors;
+    }
+
+    /**
+     * Returns the group of libraries at firebase
+     * @deprecated Will be removed in Gradle 9.0.
+     */
+    @Deprecated
+    public FirebaseLibraryAccessors getFirebase() {
+        org.gradle.internal.deprecation.DeprecationLogger.deprecateBehaviour("Accessing libraries or bundles from version catalogs in the plugins block.").withAdvice("Only use versions or plugins from catalogs in the plugins block.").willBeRemovedInGradle9().withUpgradeGuideSection(8, "kotlin_dsl_deprecated_catalogs_plugins_block").nagUser();
+        return laccForFirebaseLibraryAccessors;
     }
 
     /**
@@ -87,6 +98,7 @@ public class LibrariesForLibsInPluginsBlock extends AbstractExternalDependencyFa
         private final AndroidxCoreLibraryAccessors laccForAndroidxCoreLibraryAccessors = new AndroidxCoreLibraryAccessors(owner);
         private final AndroidxEspressoLibraryAccessors laccForAndroidxEspressoLibraryAccessors = new AndroidxEspressoLibraryAccessors(owner);
         private final AndroidxLifecycleLibraryAccessors laccForAndroidxLifecycleLibraryAccessors = new AndroidxLifecycleLibraryAccessors(owner);
+        private final AndroidxNavigationLibraryAccessors laccForAndroidxNavigationLibraryAccessors = new AndroidxNavigationLibraryAccessors(owner);
         private final AndroidxUiLibraryAccessors laccForAndroidxUiLibraryAccessors = new AndroidxUiLibraryAccessors(owner);
 
         public AndroidxLibraryAccessors(AbstractExternalDependencyFactory owner) { super(owner); }
@@ -161,6 +173,16 @@ public class LibrariesForLibsInPluginsBlock extends AbstractExternalDependencyFa
         public AndroidxLifecycleLibraryAccessors getLifecycle() {
             org.gradle.internal.deprecation.DeprecationLogger.deprecateBehaviour("Accessing libraries or bundles from version catalogs in the plugins block.").withAdvice("Only use versions or plugins from catalogs in the plugins block.").willBeRemovedInGradle9().withUpgradeGuideSection(8, "kotlin_dsl_deprecated_catalogs_plugins_block").nagUser();
             return laccForAndroidxLifecycleLibraryAccessors;
+        }
+
+        /**
+         * Returns the group of libraries at androidx.navigation
+         * @deprecated Will be removed in Gradle 9.0.
+         */
+        @Deprecated
+        public AndroidxNavigationLibraryAccessors getNavigation() {
+            org.gradle.internal.deprecation.DeprecationLogger.deprecateBehaviour("Accessing libraries or bundles from version catalogs in the plugins block.").withAdvice("Only use versions or plugins from catalogs in the plugins block.").willBeRemovedInGradle9().withUpgradeGuideSection(8, "kotlin_dsl_deprecated_catalogs_plugins_block").nagUser();
+            return laccForAndroidxNavigationLibraryAccessors;
         }
 
         /**
@@ -305,6 +327,27 @@ public class LibrariesForLibsInPluginsBlock extends AbstractExternalDependencyFa
      * @deprecated Will be removed in Gradle 9.0.
      */
     @Deprecated
+    public static class AndroidxNavigationLibraryAccessors extends SubDependencyFactory {
+
+        public AndroidxNavigationLibraryAccessors(AbstractExternalDependencyFactory owner) { super(owner); }
+
+            /**
+             * Creates a dependency provider for compose (androidx.navigation:navigation-compose)
+             * This dependency was declared in catalog libs.versions.toml
+         * @deprecated Will be removed in Gradle 9.0.
+             */
+        @Deprecated
+            public Provider<MinimalExternalModuleDependency> getCompose() {
+            org.gradle.internal.deprecation.DeprecationLogger.deprecateBehaviour("Accessing libraries or bundles from version catalogs in the plugins block.").withAdvice("Only use versions or plugins from catalogs in the plugins block.").willBeRemovedInGradle9().withUpgradeGuideSection(8, "kotlin_dsl_deprecated_catalogs_plugins_block").nagUser();
+                return create("androidx.navigation.compose");
+        }
+
+    }
+
+    /**
+     * @deprecated Will be removed in Gradle 9.0.
+     */
+    @Deprecated
     public static class AndroidxUiLibraryAccessors extends SubDependencyFactory implements DependencyNotationSupplier {
         private final AndroidxUiTestLibraryAccessors laccForAndroidxUiTestLibraryAccessors = new AndroidxUiTestLibraryAccessors(owner);
         private final AndroidxUiToolingLibraryAccessors laccForAndroidxUiToolingLibraryAccessors = new AndroidxUiToolingLibraryAccessors(owner);
@@ -419,6 +462,80 @@ public class LibrariesForLibsInPluginsBlock extends AbstractExternalDependencyFa
 
     }
 
+    /**
+     * @deprecated Will be removed in Gradle 9.0.
+     */
+    @Deprecated
+    public static class FirebaseLibraryAccessors extends SubDependencyFactory {
+        private final FirebaseDatabaseLibraryAccessors laccForFirebaseDatabaseLibraryAccessors = new FirebaseDatabaseLibraryAccessors(owner);
+        private final FirebaseFirestoreLibraryAccessors laccForFirebaseFirestoreLibraryAccessors = new FirebaseFirestoreLibraryAccessors(owner);
+
+        public FirebaseLibraryAccessors(AbstractExternalDependencyFactory owner) { super(owner); }
+
+        /**
+         * Returns the group of libraries at firebase.database
+         * @deprecated Will be removed in Gradle 9.0.
+         */
+        @Deprecated
+        public FirebaseDatabaseLibraryAccessors getDatabase() {
+            org.gradle.internal.deprecation.DeprecationLogger.deprecateBehaviour("Accessing libraries or bundles from version catalogs in the plugins block.").withAdvice("Only use versions or plugins from catalogs in the plugins block.").willBeRemovedInGradle9().withUpgradeGuideSection(8, "kotlin_dsl_deprecated_catalogs_plugins_block").nagUser();
+            return laccForFirebaseDatabaseLibraryAccessors;
+        }
+
+        /**
+         * Returns the group of libraries at firebase.firestore
+         * @deprecated Will be removed in Gradle 9.0.
+         */
+        @Deprecated
+        public FirebaseFirestoreLibraryAccessors getFirestore() {
+            org.gradle.internal.deprecation.DeprecationLogger.deprecateBehaviour("Accessing libraries or bundles from version catalogs in the plugins block.").withAdvice("Only use versions or plugins from catalogs in the plugins block.").willBeRemovedInGradle9().withUpgradeGuideSection(8, "kotlin_dsl_deprecated_catalogs_plugins_block").nagUser();
+            return laccForFirebaseFirestoreLibraryAccessors;
+        }
+
+    }
+
+    /**
+     * @deprecated Will be removed in Gradle 9.0.
+     */
+    @Deprecated
+    public static class FirebaseDatabaseLibraryAccessors extends SubDependencyFactory {
+
+        public FirebaseDatabaseLibraryAccessors(AbstractExternalDependencyFactory owner) { super(owner); }
+
+            /**
+             * Creates a dependency provider for ktx (com.google.firebase:firebase-database-ktx)
+             * This dependency was declared in catalog libs.versions.toml
+         * @deprecated Will be removed in Gradle 9.0.
+             */
+        @Deprecated
+            public Provider<MinimalExternalModuleDependency> getKtx() {
+            org.gradle.internal.deprecation.DeprecationLogger.deprecateBehaviour("Accessing libraries or bundles from version catalogs in the plugins block.").withAdvice("Only use versions or plugins from catalogs in the plugins block.").willBeRemovedInGradle9().withUpgradeGuideSection(8, "kotlin_dsl_deprecated_catalogs_plugins_block").nagUser();
+                return create("firebase.database.ktx");
+        }
+
+    }
+
+    /**
+     * @deprecated Will be removed in Gradle 9.0.
+     */
+    @Deprecated
+    public static class FirebaseFirestoreLibraryAccessors extends SubDependencyFactory {
+
+        public FirebaseFirestoreLibraryAccessors(AbstractExternalDependencyFactory owner) { super(owner); }
+
+            /**
+             * Creates a dependency provider for ktx (com.google.firebase:firebase-firestore-ktx)
+             * This dependency was declared in catalog libs.versions.toml
+         * @deprecated Will be removed in Gradle 9.0.
+             */
+        @Deprecated
+            public Provider<MinimalExternalModuleDependency> getKtx() {
+            org.gradle.internal.deprecation.DeprecationLogger.deprecateBehaviour("Accessing libraries or bundles from version catalogs in the plugins block.").withAdvice("Only use versions or plugins from catalogs in the plugins block.").willBeRemovedInGradle9().withUpgradeGuideSection(8, "kotlin_dsl_deprecated_catalogs_plugins_block").nagUser();
+                return create("firebase.firestore.ktx");
+        }
+
+    }
+
     public static class VersionAccessors extends VersionFactory  {
 
         public VersionAccessors(ProviderFactory providers, DefaultVersionCatalog config) { super(providers, config); }
@@ -464,6 +581,22 @@ public class LibrariesForLibsInPluginsBlock extends AbstractExternalDependencyFa
             public Provider<String> getEspressoCore() { return getVersion("espressoCore"); }
 
             /**
+             * Returns the version associated to this alias: firebaseDatabaseKtx (20.3.1)
+             * If the version is a rich version and that its not expressible as a
+             * single version string, then an empty string is returned.
+             * This version was declared in catalog libs.versions.toml
+             */
+            public Provider<String> getFirebaseDatabaseKtx() { return getVersion("firebaseDatabaseKtx"); }
+
+            /**
+             * Returns the version associated to this alias: firebaseFirestoreKtx (24.11.1)
+             * If the version is a rich version and that its not expressible as a
+             * single version string, then an empty string is returned.
+             * This version was declared in catalog libs.versions.toml
+             */
+            public Provider<String> getFirebaseFirestoreKtx() { return getVersion("firebaseFirestoreKtx"); }
+
+            /**
              * Returns the version associated to this alias: junit (4.13.2)
              * If the version is a rich version and that its not expressible as a
              * single version string, then an empty string is returned.
@@ -494,6 +627,14 @@ public class LibrariesForLibsInPluginsBlock extends AbstractExternalDependencyFa
              * This version was declared in catalog libs.versions.toml
              */
             public Provider<String> getLifecycleRuntimeKtx() { return getVersion("lifecycleRuntimeKtx"); }
+
+            /**
+             * Returns the version associated to this alias: navigationCompose (2.7.7)
+             * If the version is a rich version and that its not expressible as a
+             * single version string, then an empty string is returned.
+             * This version was declared in catalog libs.versions.toml
+             */
+            public Provider<String> getNavigationCompose() { return getVersion("navigationCompose"); }
 
     }
 

@@ -30,7 +30,8 @@ fun AppNavigation() {
         {
             Home(navController, sharedViewModel)
         }
-        composable(Routes.ProductDetail.route) {
+        composable(Routes.ProductDetail.route)
+        {
             ProductDetail(navController, sharedViewModel)
         }
         composable(Routes.Profile.route)
@@ -40,6 +41,10 @@ fun AppNavigation() {
         composable(Routes.Cart.route)
         {
             Cart(navController, sharedViewModel)
+        }
+        composable(Routes.Credits.route)
+        {
+            Credits(navController, sharedViewModel)
         }
     }
 }

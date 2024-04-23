@@ -7,6 +7,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -17,10 +18,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,6 +40,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -43,6 +51,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.stu74538.onlineshopingapp.R.drawable.dark_account_logo
+import com.stu74538.onlineshopingapp.R.drawable.help
 import com.stu74538.onlineshopingapp.ui.theme.Black
 import com.stu74538.onlineshopingapp.ui.theme.Red
 
@@ -53,26 +62,43 @@ fun Profile(navController: NavController, viewModel: SharedViewModel) {
         topBar = { AppBar(navController, hiddeLogo = true, viewModel = viewModel) },
         bottomBar = { BottomNavigationBar(navController) },
     ) { innerPadding ->
-        ProfileBody(innerPadding, navController, viewModel.user)
+        ProfileBody(innerPadding, navController)
     }
 }
 
 @Composable
-fun ProfileBody(innerPadding: PaddingValues, navController: NavController, user: User?) {
-    Column(modifier = Modifier
-        .padding(innerPadding)
-        .fillMaxSize()
-        .padding(start = 20.dp, end = 20.dp, top = 30.dp)
+fun ProfileBody(innerPadding: PaddingValues, navController: NavController) {
+    Column(
+        modifier = Modifier
+            .padding(innerPadding)
+            .fillMaxSize()
+            .padding(start = 20.dp, end = 20.dp, top = 30.dp),
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
         ProfileInfo(navController)
         Historic()
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 20.dp),
+            Alignment.CenterEnd
+        ) {
+            Image(
+                painter = painterResource(help),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(35.dp)
+                    .clickable { navController.navigate(Routes.Credits.route) }
+            )
+        }
     }
 }
 
 @Composable
 fun ProfileInfo(navController: NavController) {
     auth.currentUser.let {
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Row {
             Column (
                 horizontalAlignment = Alignment.CenterHorizontally
             ){
@@ -107,5 +133,10 @@ fun ProfileInfo(navController: NavController) {
 
 @Composable
 fun Historic() {
+    Column (
+        modifier = Modifier
+            .verticalScroll(rememberScrollState()),
+    ){
 
+    }
 }

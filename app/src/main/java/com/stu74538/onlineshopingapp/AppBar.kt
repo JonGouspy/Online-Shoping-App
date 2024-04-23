@@ -54,14 +54,14 @@ fun AppBar(navController: NavController, hiddeLogo: Boolean = false, hiddeBasket
             fontSize = 25.sp
         )
         Row(
-            Modifier.fillMaxHeight().padding(end = 6.dp),
+            Modifier.fillMaxHeight().padding(end = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (!hiddeLogo) {
                 ProfileImage(viewModel.user, navController)
             }
             if (!hiddeBasket) {
-                Spacer(Modifier.width(2.dp))
+                Spacer(Modifier.width(8.dp))
                 Image(
                     modifier = Modifier
                         .clickable(onClick = { navController.navigate(Routes.Cart.route) })
@@ -83,15 +83,14 @@ fun ProfileImage(user: User?, navController: NavController, modifier: Modifier =
         Image(
             painter = rememberAsyncImagePainter(imgUrl),
             contentDescription = null,
-            modifier = modifier.size(45.dp).clickable { navController.navigate(Routes.Profile.route) },
             contentScale = ContentScale.Crop,
-        )
+            modifier = modifier.size(45.dp).clip(CircleShape).clickable { navController.navigate(Routes.Profile.route) },        )
     } ?: run {
         AsyncImage(
             model = "https://thispersondoesnotexist.com/",
             contentDescription = null,
-            modifier = modifier.size(45.dp).clickable { navController.navigate(Routes.Profile.route) },
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
+            modifier = modifier.size(45.dp).clip(CircleShape).clickable { navController.navigate(Routes.Profile.route) },
         )
     }
 }

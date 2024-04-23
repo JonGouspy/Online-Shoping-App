@@ -14,8 +14,6 @@ class SharedViewModel: ViewModel() {
 
     internal val cart = mutableListOf<CartItem>()
 
-
-
     fun productDetail(selectedProduct: Product) {
         product = selectedProduct
     }

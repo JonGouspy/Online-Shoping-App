@@ -24,8 +24,7 @@ fun BottomNavigationBar(navController: NavController) {
         modifier = Modifier
             .fillMaxWidth()
             .height(60.dp)
-            .background(Gray)
-            .padding(start = 15.dp),
+            .background(Gray),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
@@ -36,6 +35,7 @@ fun BottomNavigationBar(navController: NavController) {
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp
         )
+        /*
         Text(
             modifier = Modifier.clickable(onClick = { navController.navigate(Routes.Home.route) }),
             text = "Search",
@@ -43,5 +43,6 @@ fun BottomNavigationBar(navController: NavController) {
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp
         )
+        */
     }
 }

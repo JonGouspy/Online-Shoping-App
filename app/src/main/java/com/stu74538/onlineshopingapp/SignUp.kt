@@ -1,6 +1,7 @@
 package com.stu74538.onlineshopingapp
 
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.util.Log
 import android.util.Patterns
 import androidx.compose.foundation.Image
@@ -44,6 +45,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.userProfileChangeRequest
+import com.google.firebase.ktx.Firebase
 
 private val TAG: String = "UserCreation"
 
@@ -181,9 +185,47 @@ fun SignUp(navController: NavController) {
             visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
             modifier = Modifier.padding(bottom = 5.dp)
         )
-        LinkToLogin { navController.navigate(Routes.Login.route) }
+        LinkToLogin {
+            navController.navigate(Routes.Login.route) {
+                launchSingleTop = true
+                popUpTo(route = Routes.SignUp.route) {
+                    inclusive = true
+                }
+            }
+        }
         Spacer(Modifier.height(50.dp))
-        ElevatedButton(onClick = { navController.navigate(Routes.Home.route) }) {
+
+        ElevatedButton(onClick = {
+            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    val user = auth.currentUser
+
+                    val profileUpdates = userProfileChangeRequest {
+                        displayName = "$firstName $lastName"
+                        photoUri = Uri.parse("https://thispersondoesnotexist.com/")
+                    }
+
+                    user!!.updateProfile(profileUpdates)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Log.d(TAG, "User profile updated.")
+                            }
+                        }
+
+                    Log.d(MainActivity.TAG, "The user log in successfully")
+                    navController.navigate(Routes.Home.route) {
+                        launchSingleTop = true
+                        popUpTo(route = Routes.SignUp.route) {
+                            inclusive = true
+                        }
+                    }
+                } else {
+                    Log.w(MainActivity.TAG, "The user has failed to log in", it.exception)
+                    email = ""
+                    password = ""
+                }
+            }
+        }) {
             Text(text = "Create")
         }
         Spacer(Modifier.height(50.dp))

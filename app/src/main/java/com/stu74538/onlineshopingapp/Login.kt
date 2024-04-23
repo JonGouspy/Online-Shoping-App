@@ -153,7 +153,12 @@ fun Login(navController: NavController) {
                 auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
                     if (it.isSuccessful) {
                         Log.d(TAG, "The user log in successfully")
-                        navController.navigate(Routes.Home.route)
+                        navController.navigate(Routes.Home.route) {
+                            launchSingleTop = true
+                            popUpTo(route = Routes.Login.route) {
+                                inclusive = true
+                            }
+                        }
                     } else {
                         Log.w(TAG, "The user has failed to log in", it.exception)
                         email = ""

@@ -23,9 +23,15 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -40,12 +46,14 @@ fun ProductDetail(navController: NavController, viewModel: SharedViewModel){
         topBar = { AppBar(navController, viewModel = viewModel) },
         bottomBar = { BottomNavigationBar(navController) },
     ) { innerPadding ->
-        ProductBody(innerPadding, viewModel)
+        ProductBody(innerPadding, viewModel, navController)
     }
 }
 
 @Composable
-fun ProductBody(innerPadding: PaddingValues, viewModel: SharedViewModel) {
+fun ProductBody(innerPadding: PaddingValues, viewModel: SharedViewModel, navController: NavController) {
+    var count by remember { mutableIntStateOf(1) }
+
     Column (
         modifier = Modifier,
         verticalArrangement = Arrangement.Top
@@ -65,15 +73,9 @@ fun ProductBody(innerPadding: PaddingValues, viewModel: SharedViewModel) {
                     .height(250.dp)
                     .border(1.dp, Black, RoundedCornerShape(5.dp))
             )
-
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 5.dp, bottom = 15.dp),
-                verticalArrangement = Arrangement.SpaceBetween
-            ) {
-                viewModel.product?.name?.let { Text(text = it, color = Black) }
-            }
+            viewModel.product?.name?.let { Text(text = it, color = Black, fontWeight = FontWeight.Bold, modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 5.dp, bottom = 15.dp)) }
         }
         Row (
             modifier = Modifier
@@ -82,9 +84,29 @@ fun ProductBody(innerPadding: PaddingValues, viewModel: SharedViewModel) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ){
-            Text(text = "${viewModel.product?.price} $", color = Red)
-            OutlinedButton(onClick = { viewModel.product?.let { viewModel.addProduct(it, 1) } }) {
+            Text(text = "${viewModel.product?.price} $    x ${count}", color = Red)
+            OutlinedButton(onClick = {
+                navController.popBackStack()
+                viewModel.product?.let { viewModel.addProduct(it, count)
+                } }) {
                 Text("Add to basket")
+            }
+        }
+        Row (
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 40.dp, end = 40.dp),
+            horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            Row {
+                Button(onClick = { if (count > 1 ) count-- }) {
+                    Text(text = "-")
+                }
+                Spacer(modifier = Modifier.width(16.dp))
+                Button(onClick = { count++ }) {
+                    Text(text = "+")
+                }
             }
         }
     }

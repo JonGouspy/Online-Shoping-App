@@ -34,6 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -63,8 +64,9 @@ fun Home(navController: NavController, viewModel: SharedViewModel) {
 
 @Composable
 fun HomeBody(navController: NavController, viewModel: SharedViewModel, innerPadding: PaddingValues) {
-    var productList by remember { mutableStateOf<List<Product>>(emptyList()) }
-    var categories by remember { mutableStateOf<List<String>>(emptyList()) }
+    var productList:List<Product> by remember { mutableStateOf(emptyList()) }
+    var subProductList:List<Product> by remember { mutableStateOf(emptyList()) }
+    var categories:List<String> by remember { mutableStateOf(emptyList()) }
 
     val db = FirebaseDatabase.getInstance()
     val auth = FirebaseAuth.getInstance()
@@ -83,6 +85,7 @@ fun HomeBody(navController: NavController, viewModel: SharedViewModel, innerPadd
                         }
                     }
                     productList = list
+                    subProductList = list
 
                     val categorySet = mutableSetOf<String>()
                     for (product in productList) {
@@ -103,8 +106,10 @@ fun HomeBody(navController: NavController, viewModel: SharedViewModel, innerPadd
             .padding(innerPadding)
             .verticalScroll(rememberScrollState()),
     ) {
-        Categories(categories)
-        productList.forEach {
+        Categories(categories) { category ->
+            subProductList = productList.filter { it.category == category }
+        }
+        subProductList.forEach {
             HomeProduct(
                 navController, viewModel, it
             )
@@ -114,7 +119,7 @@ fun HomeBody(navController: NavController, viewModel: SharedViewModel, innerPadd
 }
 
 @Composable
-fun Categories(categories: List<String>) {
+fun Categories(categories: List<String>, onCategoryClicked: (String) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -125,7 +130,9 @@ fun Categories(categories: List<String>) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         categories.forEach {
-            Text(it)
+            Text(it, modifier = Modifier.clickable {
+                onCategoryClicked(it)
+            })
             Spacer(modifier = Modifier.width(10.dp))
         }
     }
